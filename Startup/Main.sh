@@ -95,28 +95,10 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/x86-linux/Componen
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/x86-linux/Components/Interfaces/BaseLib2Wrapper/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/x86-linux/Components/Interfaces/SysLogger/
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MARTe2_Components_DIR/Build/x86-linux/Components/Interfaces/EPICS/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/ESDNValidationGAM/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/SCURUIFGAM/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/Interfaces/SCURUIF/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/Interfaces/NiDevice/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/Interfaces/NiDevice/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/Interfaces/NiSyncDevice/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/AsyncThreadGate/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/CircularBufferAcqDriver/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/CRioCircularFifoReader/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/CRioFifo/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/CRioMxi/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/DynamicWaveformGenerator/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/FixedWaveformGenerator/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/NiPci1588Tcn/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/DataSources/RandomDataSource/
 
-if [ ! -z "$CRIO_PROJ_DIR" ]; then
-    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/ThirdPartyLibs/NI_9157/$(CRIO_PROJ_DIR)/NiLabviewGen/
-fi
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/FilterDownsamplingGAM/
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/mdsplus/lib64/
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../Build/x86-linux/GAMs/FilterDownsamplingGAM/
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EPICS_BASE/lib/$EPICS_HOST_ARCH
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/mdsplus/lib64/
 
 echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
@@ -127,24 +109,6 @@ if [ ! -z "$DAN_CONFIG_LOCATION" ]; then
     echo $DAN_MASTER_IP
     /opt/codac/bin/danApiTool api close
     /opt/codac/bin/danApiTool api init $DAN_CONFIG_LOCATION
-fi
-
-if [ ! -z ${RUN_AS_ROOT+x} ]; then 
-    #Disable CPU speed changing
-    service cpuspeed stop
-
-    #Allocate dynamic ticks to CPU #0
-    for i in `pgrep rcu[^c]` ; do taskset -pc 0 $i ; done
-
-    #Assign IRQ to correct CPU
-    tuna -q eth0 -c 3 -x -m
-
-    #Isolate cpus 1-3 (tasks and interrupts)
-    tuna -c 1-3 --isolate
-
-    if [ ! -z "$DAN_CONFIG_LOCATION" ]; then
-        /etc/init.d/dan_archiver_writer -f start
-    fi
 fi
 
 #Location of the MARTe2 application loader
