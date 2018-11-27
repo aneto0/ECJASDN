@@ -14,3 +14,20 @@ record( waveform, "ECJASDN:VALUE3RR")
    field(NELM, 100)
    field(FTVL, "LONG")
 }
+
+record( ai, "EC-GN-P01-GPF:PLC4110-YTS-ST1R")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( ai, "EC-GN-P01-GBF-MCPS:PSU2120-ACT-RB")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( ai, "EC-GN-P01-GAF-GCPS:PSU2130-ACT-RB")
+{
+   field(DTYP, "Soft Channel")
+}
+
+
