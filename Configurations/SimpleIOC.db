@@ -1,0 +1,16 @@
+record( mbbi, "ECJASDN::VALUE1")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( ai, "ECJASDN::VALUE2")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( waveform, "ECJASDN:VALUE3RR")
+{
+   field(DTYP, "Soft Channel")
+   field(NELM, 100)
+   field(FTVL, "LONG")
+}
