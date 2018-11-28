@@ -66,25 +66,21 @@ bool JAMessageGAM::Initialise(MARTe::StructuredDataI & data) {
             }
             else {
                 ok = false;
-                REPORT_ERROR(ErrorManagement::ParametersError,
-                             "Operation %s is not defined",
-                             operationStr.Buffer());
+                REPORT_ERROR(ErrorManagement::ParametersError, "Operation %s is not defined", operationStr.Buffer());
             }
         }
     }
     if (ok) {
         ok = (Size() == 1);
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError,
-                         "A Message object shall be added to this container");
+            REPORT_ERROR(ErrorManagement::ParametersError, "A Message object shall be added to this container");
         }
     }
     if (ok) {
         eventMsg = Get(0);
         ok = (eventMsg.IsValid());
         if (!ok) {
-            REPORT_ERROR(ErrorManagement::ParametersError,
-                         "A valid Message shall be added to this container");
+            REPORT_ERROR(ErrorManagement::ParametersError, "A valid Message shall be added to this container");
         }
     }
     return ok;
@@ -101,8 +97,7 @@ bool JAMessageGAM::Setup() {
         }
     }
     else {
-        REPORT_ERROR(MARTe::ErrorManagement::ParametersError,
-                     "At least one input signal shall be defined");
+        REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "At least one input signal shall be defined");
     }
     if (ok) {
         uint32 i;
@@ -112,9 +107,7 @@ bool JAMessageGAM::Setup() {
             if (!ok) {
                 StreamString signalName;
                 (void) GetSignalName(InputSignals, i, signalName);
-                REPORT_ERROR(MARTe::ErrorManagement::ParametersError,
-                             "Signal %s shall be defined as uint32",
-                             signalName.Buffer());
+                REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint32", signalName.Buffer());
             }
         }
     }
@@ -122,8 +115,7 @@ bool JAMessageGAM::Setup() {
     return ok;
 }
 
-bool JAMessageGAM::PrepareNextState(const MARTe::char8 * const currentStateName,
-                                    const MARTe::char8 * const nextStateName) {
+bool JAMessageGAM::PrepareNextState(const MARTe::char8 * const currentStateName, const MARTe::char8 * const nextStateName) {
     needsReset = false;
     return true;
 }
@@ -146,8 +138,7 @@ bool JAMessageGAM::Execute() {
     }
     if (eventDetected) {
         if (!needsReset) {
-            ok = (MARTe::MessageI::SendMessageAndWaitReply(eventMsg, this)
-                    == MARTe::ErrorManagement::NoError);
+            ok = (MARTe::MessageI::SendMessage(eventMsg, this) == MARTe::ErrorManagement::NoError);
             needsReset = true;
         }
     }
