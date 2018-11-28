@@ -1,6 +1,6 @@
 /**
- * @file JAMessageGAM.h
- * @brief Header file for class JAMessageGAM
+ * @file JAPreProgrammedGAM.h
+ * @brief Header file for class JAPreProgrammedGAM
  * @date Nov 26, 2018
  * @author aneto
  *
@@ -16,13 +16,13 @@
  * basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence permissions and limitations under the Licence.
 
- * @details This header file contains the declaration of the class JAMessageGAM
+ * @details This header file contains the declaration of the class JAPreProgrammedGAM
  * with all of its public, protected and private members. It may also include
  * definitions for inline methods which need to be visible to the compiler.
  */
 
-#ifndef GAMS_JAMESSAGEGAM_H_
-#define GAMS_JAMESSAGEGAM_H_
+#ifndef GAMS_JAPREPROGRAMMEDGAM_H_
+#define GAMS_JAPREPROGRAMMEDGAM_H_
 
 /*---------------------------------------------------------------------------*/
 /*                        Standard header includes                           */
@@ -33,18 +33,19 @@
 /*---------------------------------------------------------------------------*/
 #include "GAM.h"
 #include "Message.h"
+#include "MessageI.h"
 
 /*---------------------------------------------------------------------------*/
 /*                           Class declaration                               */
 /*---------------------------------------------------------------------------*/
 
-class JAMessageGAM : public MARTe::GAM, public MARTe::StatefulI  {
+class JAPreProgrammedGAM : public MARTe::GAM, public MARTe::MessageI {
 public:
     CLASS_REGISTER_DECLARATION()
 
-    JAMessageGAM();
+    JAPreProgrammedGAM();
 
-    virtual ~JAMessageGAM();
+    virtual ~JAPreProgrammedGAM();
 
     virtual bool Initialise(MARTe::StructuredDataI & data);
 
@@ -52,22 +53,44 @@ public:
 
     virtual bool Execute();
 
-    virtual bool PrepareNextState(const MARTe::char8 * const currentStateName,
-                                  const MARTe::char8 * const nextStateName);
+    MARTe::ErrorManagement::ErrorType LoadFile();
+
+    MARTe::ErrorManagement::ErrorType SetMode(MARTe::StreamString modeName);
+
 private:
-    MARTe::uint32 **inputSignals;
+    const MARTe::char8 *filename;
+
+    MARTe::int32 *timeSignal;
+
+    MARTe::float32 **valueSignals;
+
+    MARTe::int32 *preProgrammedTime;
+
+    MARTe::float32 **preProgrammedValues;
+
+    //Number of columns in csv, EXCLUDING the time
+    MARTe::uint32 numberOfPreProgrammedValues;
+
+    MARTe::uint32 numberOfPreProgrammedTimeRows;
+
+    MARTe::StreamString openFileState;
+
+    MARTe::StreamString directory;
+
+    MARTe::uint32 currentRow;
+
+    MARTe::FastPollingMutexSem fastMux;
+
+    bool preparing;
+
+    MARTe::StreamString currentState;
 
     enum OperationMode {
-        And, Or, Value, None
+        Heating, PreProgrammed, None
     };
 
-    OperationMode operation;
-
-    MARTe::uint32 valueToCheck;
-
-    MARTe::ReferenceT<MARTe::Message> eventMsg;
-
-    bool needsReset;
+    //If modeName == Heating => mode = 1; modeName == PreProgrammed => mode = 2
+    OperationMode mode;
 };
 
 
@@ -76,4 +99,4 @@ private:
 /*                        Inline method definitions                          */
 /*---------------------------------------------------------------------------*/
 
-#endif /* GAMS_JAMESSAGEGAM_H_ */
+#endif /* GAMS_JAPREPROGRAMMEDGAM_H_ */

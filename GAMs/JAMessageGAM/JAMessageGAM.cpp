@@ -42,8 +42,9 @@
 
 JAMessageGAM::JAMessageGAM() {
     inputSignals = NULL_PTR(MARTe::uint32 **);
-    operation = 0; //0 -> OR, 1 -> AND
+    operation = Or;
     needsReset = false;
+    valueToCheck = 0;
 }
 
 JAMessageGAM::~JAMessageGAM() {
@@ -59,10 +60,17 @@ bool JAMessageGAM::Initialise(MARTe::StructuredDataI & data) {
         MARTe::StreamString operationStr;
         if (data.Read("Operation", operationStr)) {
             if (operationStr == "AND") {
-                operation = 1;
+                operation = And;
             }
             else if (operationStr == "OR") {
-                operation = 0;
+                operation = Or;
+            }
+            else if (operationStr == "VALUE") {
+                operation = Value;
+                ok = data.Read("ValueToCheck", valueToCheck);
+                if (!ok) {
+                    REPORT_ERROR(ErrorManagement::ParametersError, "ValueToCheck shall be defined");
+                }
             }
             else {
                 ok = false;
@@ -102,8 +110,8 @@ bool JAMessageGAM::Setup() {
     if (ok) {
         uint32 i;
         for (i = 0u; (i < numberOfInputSignals) && (ok); i++) {
-            TypeDescriptor inputType = GetSignalType(InputSignals, 0u);
-            ok = (inputType == UnsignedInteger32Bit);
+            TypeDescriptor inputType = GetSignalType(InputSignals, i);
+            ok = ((inputType == UnsignedInteger32Bit) || (inputType == SignedInteger32Bit));
             if (!ok) {
                 StreamString signalName;
                 (void) GetSignalName(InputSignals, i, signalName);
@@ -123,18 +131,21 @@ bool JAMessageGAM::PrepareNextState(const MARTe::char8 * const currentStateName,
 bool JAMessageGAM::Execute() {
     bool ok = true;
     bool eventDetected = false;
-    if (operation == 0) {
+    if (operation == Or) {
         MARTe::uint32 j;
         for (j = 0; (j < numberOfInputSignals) && (!eventDetected); j++) {
             eventDetected = (*inputSignals[j] == 1u);
         }
     }
-    else if (operation == 1) {
+    else if (operation == And) {
         MARTe::uint32 j;
         eventDetected = (*inputSignals[0] == 1u);
         for (j = 1; (j < numberOfInputSignals); j++) {
             eventDetected &= (*inputSignals[j] == 1u);
         }
+    }
+    else if (operation == Value) {
+        eventDetected = (*inputSignals[0] == valueToCheck);
     }
     if (eventDetected) {
         if (!needsReset) {
