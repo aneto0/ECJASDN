@@ -30,4 +30,9 @@ record( ai, "EC-GN-P01-GAF-GCPS:PSU2130-ACT-RB")
    field(DTYP, "Soft Channel")
 }
 
+record( stringout, "PREPROGFILENAME")
+{
+   field(DTYP, "Soft Channel")
+}
+
 
