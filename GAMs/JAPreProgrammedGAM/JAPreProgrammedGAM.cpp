@@ -308,25 +308,22 @@ bool JAPreProgrammedGAM::Execute() {
     if (mode != None) {
         if (!isLoadingFile) {
             if ((currentRow < numberOfPreProgrammedTimeRows)) {
-            	const uint32 millisecondsInMicroseconds = 1000;
-				uint32 nextCurrentRow = (*currentTime - startTime) / (10 * millisecondsInMicroseconds);
-				if (nextCurrentRow != currentRow) {
-					currentRow = nextCurrentRow;
-		            if ((currentRow < numberOfPreProgrammedTimeRows)) {
-						int32 currentTime = preProgrammedTime[currentRow];
-						bool writeToOutput = ((mode == Heating) && (currentTime <= 0));
-						if (!writeToOutput) {
-							writeToOutput = ((mode == PreProgrammed) && (currentTime > 0));
-						}
+            	const uint32 millisecondsInMicrosecond = 1000;
+            	currentRow = (*currentTime - startTime) / (10 * millisecondsInMicrosecond);
+				if ((currentRow < numberOfPreProgrammedTimeRows)) {
+					int32 currentTime = preProgrammedTime[currentRow];
+					bool writeToOutput = ((mode == Heating) && (currentTime <= 0));
+					if (!writeToOutput) {
+						writeToOutput = ((mode == PreProgrammed) && (currentTime > 0));
+					}
 
-						if (writeToOutput) {
-							*timeSignal = currentTime;
-							uint32 j;
-							for (j = 0u; j < (numberOfOutputSignals - 1); j++) {
-								*valueSignals[j] = preProgrammedValues[currentRow][j];
-							}
+					if (writeToOutput) {
+						*timeSignal = currentTime;
+						uint32 j;
+						for (j = 0u; j < (numberOfOutputSignals - 1); j++) {
+							*valueSignals[j] = preProgrammedValues[currentRow][j];
 						}
-		            }
+					}
 				}
             }
         }
