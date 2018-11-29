@@ -58,13 +58,17 @@ public:
     MARTe::ErrorManagement::ErrorType SetMode(MARTe::StreamString modeName);
 
 private:
-    const MARTe::char8 *filename;
+    MARTe::uint32 filenameSignalIndex;
 
     MARTe::int32 *timeSignal;
 
     MARTe::float32 **valueSignals;
 
     MARTe::int32 *preProgrammedTime;
+
+    MARTe::uint32 *currentTime;
+
+    MARTe::uint32 startTime;
 
     MARTe::float32 **preProgrammedValues;
 
