@@ -1,4 +1,14 @@
-record( ai, "ECJASDN::VALUE2")
+record( ai, "EC-GN-P01-GPF:PLC4110-YSTA-MPSS")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( ai, "EC-GN-P01-PA1F:PSU3000-YSTA")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record( ai, "EC-GN-P01-PB1F:PSU1000-YSTA")
 {
    field(DTYP, "Soft Channel")
 }
