@@ -58,7 +58,7 @@ private:
     MARTe::uint32 **inputSignals;
 
     enum OperationMode {
-        And, Or, Value, None
+        And, Or, Value, Xor, Nor, None
     };
 
     OperationMode operation;

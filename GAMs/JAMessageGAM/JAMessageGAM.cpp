@@ -65,6 +65,12 @@ bool JAMessageGAM::Initialise(MARTe::StructuredDataI & data) {
             else if (operationStr == "OR") {
                 operation = Or;
             }
+            else if (operationStr == "NOR") {
+                operation = Nor;
+            }
+            else if (operationStr == "XOR") {
+                operation = Xor;
+            }
             else if (operationStr == "VALUE") {
                 operation = Value;
                 ok = data.Read("ValueToCheck", valueToCheck);
@@ -137,12 +143,27 @@ bool JAMessageGAM::Execute() {
             eventDetected = (*inputSignals[j] == 1u);
         }
     }
+    else if (operation == Nor) {
+        MARTe::uint32 j;
+        for (j = 0; (j < numberOfInputSignals) && (!eventDetected); j++) {
+            eventDetected = (*inputSignals[j] == 1u);
+        }
+        eventDetected = !eventDetected;
+    }
     else if (operation == And) {
         MARTe::uint32 j;
         eventDetected = (*inputSignals[0] == 1u);
         for (j = 1; (j < numberOfInputSignals); j++) {
             eventDetected &= (*inputSignals[j] == 1u);
         }
+    }
+    else if (operation == Xor) {
+        MARTe::uint32 j;
+        MARTe::uint32 eventDetectedUInt32 = *inputSignals[0];
+        for (j = 1; (j < numberOfInputSignals); j++) {
+            eventDetectedUInt32 ^= *inputSignals[j];
+        }
+        eventDetected = (eventDetectedUInt32 == 1u);
     }
     else if (operation == Value) {
         eventDetected = (*inputSignals[0] == valueToCheck);

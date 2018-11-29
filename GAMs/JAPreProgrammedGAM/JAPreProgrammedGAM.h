@@ -77,8 +77,6 @@ private:
 
     MARTe::uint32 numberOfPreProgrammedTimeRows;
 
-    MARTe::StreamString openFileState;
-
     MARTe::StreamString directory;
 
     MARTe::uint32 currentRow;

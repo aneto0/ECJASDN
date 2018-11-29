@@ -82,12 +82,6 @@ bool JAPreProgrammedGAM::Initialise(MARTe::StructuredDataI & data) {
     using namespace MARTe;
     bool ok = GAM::Initialise(data);
     if (ok) {
-        ok = data.Read("OpenFileState", openFileState);
-        if (!ok) {
-            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "The OpenFileState shall be specified");
-        }
-    }
-    if (ok) {
         ok = data.Read("Directory", directory);
         if (!ok) {
             REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "The Directory shall be specified");
@@ -116,11 +110,11 @@ bool JAPreProgrammedGAM::Setup() {
     	}
     	else {
 			TypeDescriptor inputType = GetSignalType(InputSignals, filenameSignalIndex);
-			ok = (inputType == UnsignedInteger8Bit);
+			ok = (inputType == CharString);
 			if (!ok) {
 				StreamString signalName;
 				(void) GetSignalName(InputSignals, 0, signalName);
-				REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint8", signalName.Buffer());
+            			REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as string", signalName.Buffer());
 			}
     	}
     }
@@ -143,6 +137,13 @@ bool JAPreProgrammedGAM::Setup() {
 		    	currentTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(signalIdx));
 			}
     	}
+        TypeDescriptor inputType = GetSignalType(InputSignals, 0);
+        ok = (inputType == CharString);
+        if (!ok) {
+            StreamString signalName;
+            (void) GetSignalName(InputSignals, 0, signalName);
+            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as string", signalName.Buffer());
+        }
     }
     if (ok) {
         uint32 i;

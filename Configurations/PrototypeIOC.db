@@ -1,0 +1,510 @@
+record( ai, "ECJASDN::VALUE2")
+{
+   field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GPF:PLC4110-YTS-ST1R")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF-MCPS:PSU2120-ACT-RB")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF-GCPS:PSU2130-ACT-RB")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA1F:PSU3000-YFLT")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB1F:PSU1000-YFLT")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:PLC4110-CON-GY1PRM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GPF:PLC4110-YTS-ST3R")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PMF:STAT-DT-HVON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA1F:STAT-DT-HVON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA1F:STAT-DT-SWON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB1F:STAT-DT-HVON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB1F:STAT-DT-SWON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA2F:STAT-DT-HVON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA2F:STAT-DT-SWON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB2F:STAT-DT-HVON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB2F:STAT-DT-SWON")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-DT-SHOTLEN")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-DT-SHOTLEN")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GPF:STAT-RDY-TOUT")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PMF:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA1F:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB1F:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA2F:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PB2F:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF-MCPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF-GCPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF-FHPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF-CCPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF-MCPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF-GCPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF-FHPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF-CCPS:STAT-MANM")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-TRIG-SOUR")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-TRIG-SOUR")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-SIMM-MODE")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-SIMM-MODE")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-PREP-MODE")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-PREP-MODE")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-MST-TRIG")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-MST-TRIG")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GPF:STAT-RST-FLT")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-SHOT-ID")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-SHOT-ID")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA1F:STAT-POLSW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-PA2F:STAT-POLSW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GAF:STAT-CSV-LOAD")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( stringin, "EC-GN-P01-GAF:STAT-CSV-NAME")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ai, "EC-GN-P01-GBF:STAT-CSV-LOAD")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( stringin, "EC-GN-P01-GBF:STAT-CSV-NAME")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA1F:PSU3000-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB1F:PSU1000-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:STAT-FC-SUBSTATE")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:STAT-FC-SUBSTATE")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:STAT-CSV-LOADED")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:STAT-CSV-ERR")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:STAT-CSV-LOADED")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:STAT-CSV-ERR")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-FHPS:PSU2320-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-CCPS:PSU2610-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF-FHPS:PSU2320-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF-CCPS:PSU2610-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB1F:PSU1000-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA1F:PSU3000-EREF-P")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA1F:PSU3000-EREF-N")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PMF:PSU0000-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB2F:PSU2000-EREF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA2F:PSU4000-EREF-P")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA2F:PSU4000-EREF-N")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-MCPS:PSU2120-TRG-CURR-SET")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-GCPS:PSU2130-TRG-CURR-SET")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA1F:PSU3000-CON-HV")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA1F:PSU3000-CON-SW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA1F:PSU3000-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB1F:PSU1000-CON-HV")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB1F:PSU1000-CON-SW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB1F:PSU1000-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:FMC4310-YSTA-GAOP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PMF:PSU0000-CON-SW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PMF:PSU0000-COFF")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PMF:PSU0000-CON-MOD")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:PCF4210-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:PCF4210-YTS-GA1")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:PCF4210-YTS-GA2")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF:PCF4210-YTS-GA3")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-FHPS:PSU2610-YTS-RUP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-MCPS:PSU2120-YTS-RUP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-MCPS:PSU2120-YTS-RDOWN")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GAF-CCPS:PSU2320-TR")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA2F:PSU4000-CON-HV")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA2F:PSU4000-CON-SW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PA2F:PSU4000-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB2F:PSU2000-CON-HV")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB2F:PSU2000-CON-SW")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-PB2F:PSU2000-CTRP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:FMS4310-YSTA-GBOP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:PCF4210-YTS-GB1")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:PCF4210-YTS-GB2")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF:PCF4210-YTS-GB3")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF-FHPS:PSU2610-YTS-RUP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF-MCPS:PSU2120-YTS-RUP")
+{
+    field(DTYP, "Soft Channel")
+}
+
+record ( ao, "EC-GN-P01-GBF-CCPS:PSU2320-TR")
+{
+    field(DTYP, "Soft Channel")
+}
+
