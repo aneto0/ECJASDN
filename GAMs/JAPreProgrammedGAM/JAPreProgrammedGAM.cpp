@@ -46,11 +46,13 @@
 JAPreProgrammedGAM::JAPreProgrammedGAM() :
         GAM(), MessageI() {
     using namespace MARTe;
-    filename = NULL_PTR(const MARTe::char8 *);
+    filenameSignalIndex = 0u;
     timeSignal = NULL_PTR(MARTe::int32 *);
     valueSignals = NULL_PTR(MARTe::float32 **);
     preProgrammedValues = NULL_PTR(MARTe::float32 **);
     preProgrammedTime = NULL_PTR(MARTe::int32 *);
+    currentTime = NULL_PTR(MARTe::uint32 *);
+    startTime = 0u;
 
     numberOfPreProgrammedValues = 0u;
     numberOfPreProgrammedTimeRows = 0u;
@@ -90,7 +92,7 @@ bool JAPreProgrammedGAM::Initialise(MARTe::StructuredDataI & data) {
 
 bool JAPreProgrammedGAM::Setup() {
     using namespace MARTe;
-    bool ok = (numberOfInputSignals == 1u);
+    bool ok = (numberOfInputSignals == 2u);
     if (ok) {
         ok = (numberOfOutputSignals > 0u);
         if (!ok) {
@@ -98,9 +100,43 @@ bool JAPreProgrammedGAM::Setup() {
         }
     }
     else {
-        REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "One input signal with the filename shall be defined");
+        REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Two input signal with the filename and current time shall be defined");
     }
     if (ok) {
+        StreamString signalName = "Filename";
+    	ok = GetSignalIndex(InputSignals, filenameSignalIndex, signalName.Buffer());
+    	if (!ok) {
+            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Filename output signal shall be defined");
+    	}
+    	else {
+			TypeDescriptor inputType = GetSignalType(InputSignals, filenameSignalIndex);
+			ok = (inputType == CharString);
+			if (!ok) {
+				StreamString signalName;
+				(void) GetSignalName(InputSignals, 0, signalName);
+            			REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as string", signalName.Buffer());
+			}
+    	}
+    }
+    if (ok) {
+    	uint32 signalIdx;
+        StreamString signalName = "CurrentTime";
+    	ok = GetSignalIndex(InputSignals, signalIdx, signalName.Buffer());
+    	if (!ok) {
+            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "CurrentTime output signal shall be defined");
+    	}
+    	else {
+			TypeDescriptor inputType = GetSignalType(InputSignals, signalIdx);
+			ok = (inputType == UnsignedInteger32Bit);
+			if (!ok) {
+				StreamString signalName;
+				(void) GetSignalName(InputSignals, 0, signalName);
+				REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint32", signalName.Buffer());
+			}
+			else {
+		    	currentTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(signalIdx));
+			}
+    	}
         TypeDescriptor inputType = GetSignalType(InputSignals, 0);
         ok = (inputType == CharString);
         if (!ok) {
@@ -150,7 +186,7 @@ MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::LoadFile() {
         fastMux.FastUnLock();
     }
 
-    const char8 * const filenameSignal = reinterpret_cast<const char8 * const >(GetInputSignalMemory(0));
+    const MARTe::char8 * const filenameSignal = reinterpret_cast<const char8 * const >(GetInputSignalMemory(filenameSignalIndex));
     StreamString filename = directory;
     filename += DIRECTORY_SEPARATOR;
     filename += filenameSignal;
@@ -245,6 +281,7 @@ MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::LoadFile() {
 
 MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::SetMode(MARTe::StreamString modeName) {
     using namespace MARTe;
+	startTime = *currentTime;
     ErrorManagement::ErrorType err;
     if (modeName == "Heating") {
         mode = Heating;
@@ -271,20 +308,23 @@ bool JAPreProgrammedGAM::Execute() {
     if (mode != None) {
         if (!isLoadingFile) {
             if ((currentRow < numberOfPreProgrammedTimeRows)) {
-                int32 currentTime = preProgrammedTime[currentRow];
-                bool writeToOutput = ((mode == Heating) && (currentTime <= 0));
-                if (!writeToOutput) {
-                    writeToOutput = ((mode == PreProgrammed) && (currentTime > 0));
-                }
+            	const uint32 millisecondsInMicrosecond = 1000;
+            	currentRow = (*currentTime - startTime) / (10 * millisecondsInMicrosecond);
+				if ((currentRow < numberOfPreProgrammedTimeRows)) {
+					int32 currentTime = preProgrammedTime[currentRow];
+					bool writeToOutput = ((mode == Heating) && (currentTime <= 0));
+					if (!writeToOutput) {
+						writeToOutput = ((mode == PreProgrammed) && (currentTime > 0));
+					}
 
-                if (writeToOutput) {
-                    *timeSignal = currentTime;
-                    uint32 j;
-                    for (j = 0u; j < (numberOfOutputSignals - 1); j++) {
-                        *valueSignals[j] = preProgrammedValues[currentRow][j];
-                    }
-                    currentRow++;
-                }
+					if (writeToOutput) {
+						*timeSignal = currentTime;
+						uint32 j;
+						for (j = 0u; j < (numberOfOutputSignals - 1); j++) {
+							*valueSignals[j] = preProgrammedValues[currentRow][j];
+						}
+					}
+				}
             }
         }
     }

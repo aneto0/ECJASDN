@@ -98,9 +98,8 @@ bool JACountdownGAM::Setup() {
         }
     }
     if (ok) {
-        TypeDescriptor timeType = GetSignalType(OutputSignals, 0);
-
-        ok = (timeType == UnsignedInteger32Bit);
+        TypeDescriptor outputTime = GetSignalType(OutputSignals, 0);
+        ok = (outputTime == UnsignedInteger32Bit);
         if (!ok) {
             StreamString signalName;
             (void) GetSignalName(InputSignals, 0, signalName);
