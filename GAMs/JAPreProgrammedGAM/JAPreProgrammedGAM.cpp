@@ -104,45 +104,41 @@ bool JAPreProgrammedGAM::Setup() {
     }
     if (ok) {
         StreamString signalName = "Filename";
-    	ok = GetSignalIndex(InputSignals, filenameSignalIndex, signalName.Buffer());
-    	if (!ok) {
-            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Filename output signal shall be defined");
-    	}
-    	else {
-			TypeDescriptor inputType = GetSignalType(InputSignals, filenameSignalIndex);
-			ok = (inputType == CharString);
-			if (!ok) {
-				StreamString signalName;
-				(void) GetSignalName(InputSignals, 0, signalName);
-            			REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as string", signalName.Buffer());
-			}
-    	}
+        ok = GetSignalIndex(InputSignals, filenameSignalIndex, signalName.Buffer());
+        if (!ok) {
+            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Filename input signal shall be defined");
+        }
+        else {
+            TypeDescriptor inputType = GetSignalType(InputSignals, filenameSignalIndex);
+            ok = (inputType == CharString);
+            if (!ok) {
+                ok = (inputType == Character8Bit);
+            }
+            if (!ok) {
+                StreamString signalName;
+                (void) GetSignalName(InputSignals, filenameSignalIndex, signalName);
+                REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as string", signalName.Buffer());
+            }
+        }
     }
     if (ok) {
-    	uint32 signalIdx;
+        uint32 signalIdx;
         StreamString signalName = "CurrentTime";
-    	ok = GetSignalIndex(InputSignals, signalIdx, signalName.Buffer());
-    	if (!ok) {
-            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "CurrentTime output signal shall be defined");
-    	}
-    	else {
-			TypeDescriptor inputType = GetSignalType(InputSignals, signalIdx);
-			ok = (inputType == UnsignedInteger32Bit);
-			if (!ok) {
-				StreamString signalName;
-				(void) GetSignalName(InputSignals, 0, signalName);
-				REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint32", signalName.Buffer());
-			}
-			else {
-		    	currentTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(signalIdx));
-			}
-    	}
-        TypeDescriptor inputType = GetSignalType(InputSignals, 0);
-        ok = (inputType == CharString);
+        ok = GetSignalIndex(InputSignals, signalIdx, signalName.Buffer());
         if (!ok) {
-            StreamString signalName;
-            (void) GetSignalName(InputSignals, 0, signalName);
-            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as string", signalName.Buffer());
+            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "CurrentTime input signal shall be defined");
+        }
+        else {
+            TypeDescriptor inputType = GetSignalType(InputSignals, signalIdx);
+            ok = (inputType == UnsignedInteger32Bit);
+            if (!ok) {
+                StreamString signalName;
+                (void) GetSignalName(InputSignals, signalIdx, signalName);
+                REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint32", signalName.Buffer());
+            }
+            else {
+                currentTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(signalIdx));
+            }
         }
     }
     if (ok) {
@@ -231,8 +227,7 @@ MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::LoadFile() {
                     }
                 }
                 else {
-                    REPORT_ERROR(MARTe::ErrorManagement::ParametersError,
-                                 "Number of columns in csv file (%d) is not consistent with the number of output signals (%d)", numberOfPreProgrammedValues,
+                    REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Number of columns in csv file (%d) is not consistent with the number of output signals (%d)", numberOfPreProgrammedValues,
                                  numberOfOutputSignals);
                 }
             }
@@ -251,8 +246,7 @@ MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::LoadFile() {
                             preProgrammedValues[t][idx - 1] = static_cast<float32>(atof(token.Buffer()));
                         }
                         else {
-                            REPORT_ERROR(MARTe::ErrorManagement::FatalError,
-                                         "Number of columns in csv file is not consistent with the number of output signals in line %d", t);
+                            REPORT_ERROR(MARTe::ErrorManagement::FatalError, "Number of columns in csv file is not consistent with the number of output signals in line %d", t);
                         }
                     }
                     token = "";
@@ -281,7 +275,7 @@ MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::LoadFile() {
 
 MARTe::ErrorManagement::ErrorType JAPreProgrammedGAM::SetMode(MARTe::StreamString modeName) {
     using namespace MARTe;
-	startTime = *currentTime;
+    startTime = *currentTime;
     ErrorManagement::ErrorType err;
     if (modeName == "Heating") {
         mode = Heating;
@@ -308,23 +302,23 @@ bool JAPreProgrammedGAM::Execute() {
     if (mode != None) {
         if (!isLoadingFile) {
             if ((currentRow < numberOfPreProgrammedTimeRows)) {
-            	const uint32 millisecondsInMicrosecond = 1000;
-            	currentRow = (*currentTime - startTime) / (10 * millisecondsInMicrosecond);
-				if ((currentRow < numberOfPreProgrammedTimeRows)) {
-					int32 currentTime = preProgrammedTime[currentRow];
-					bool writeToOutput = ((mode == Heating) && (currentTime <= 0));
-					if (!writeToOutput) {
-						writeToOutput = ((mode == PreProgrammed) && (currentTime > 0));
-					}
+                const uint32 millisecondsInMicrosecond = 1000;
+                currentRow = (*currentTime - startTime) / (10 * millisecondsInMicrosecond);
+                if ((currentRow < numberOfPreProgrammedTimeRows)) {
+                    int32 currentTime = preProgrammedTime[currentRow];
+                    bool writeToOutput = ((mode == Heating) && (currentTime <= 0));
+                    if (!writeToOutput) {
+                        writeToOutput = ((mode == PreProgrammed) && (currentTime > 0));
+                    }
 
-					if (writeToOutput) {
-						*timeSignal = currentTime;
-						uint32 j;
-						for (j = 0u; j < (numberOfOutputSignals - 1); j++) {
-							*valueSignals[j] = preProgrammedValues[currentRow][j];
-						}
-					}
-				}
+                    if (writeToOutput) {
+                        *timeSignal = currentTime;
+                        uint32 j;
+                        for (j = 0u; j < (numberOfOutputSignals - 1); j++) {
+                            *valueSignals[j] = preProgrammedValues[currentRow][j];
+                        }
+                    }
+                }
             }
         }
     }
