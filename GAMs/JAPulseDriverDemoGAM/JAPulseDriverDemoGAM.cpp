@@ -49,7 +49,7 @@ JAPulseDriverDemoGAM::JAPulseDriverDemoGAM() {
     currentTime = NULL_PTR(MARTe::uint32 *);
     pulseLengthTime = NULL_PTR(MARTe::uint32 *);
     pulseTrigger = NULL_PTR(MARTe::uint32 *);
-    output = NULL_PTR(MARTe::uint8 *);
+    output = NULL_PTR(MARTe::uint32 *);
 }
 
 JAPulseDriverDemoGAM::~JAPulseDriverDemoGAM() {
@@ -104,18 +104,18 @@ bool JAPulseDriverDemoGAM::Setup() {
     }
     if (ok) {
         TypeDescriptor outputTime = GetSignalType(OutputSignals, 0);
-        ok = (outputTime == UnsignedInteger8Bit);
+        ok = (outputTime == UnsignedInteger32Bit);
         if (!ok) {
             StreamString signalName;
             (void) GetSignalName(OutputSignals, 0, signalName);
-            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint8", signalName.Buffer());
+            REPORT_ERROR(MARTe::ErrorManagement::ParametersError, "Signal %s shall be defined as uint32", signalName.Buffer());
         }
     }
     if (ok) {
         currentTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(0));
         pulseLengthTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(1));
         pulseTrigger = reinterpret_cast<uint32 *>(GetInputSignalMemory(2));
-        output = reinterpret_cast<uint8 *>(GetOutputSignalMemory(0));
+        output = reinterpret_cast<uint32 *>(GetOutputSignalMemory(0));
     }
     return ok;
 }

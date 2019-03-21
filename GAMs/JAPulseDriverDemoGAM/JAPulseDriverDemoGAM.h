@@ -66,7 +66,7 @@ private:
     MARTe::uint32 *pulseTrigger;
 
     //Output value to write.
-    MARTe::uint8 *output;
+    MARTe::uint32 *output;
 
     //Pulse on output value
     MARTe::uint8 onValue;
