@@ -27,6 +27,7 @@
 /*---------------------------------------------------------------------------*/
 /*                        Standard header includes                           */
 /*---------------------------------------------------------------------------*/
+#include <pxi6528.h>
 
 /*---------------------------------------------------------------------------*/
 /*                        Project header includes                            */
@@ -116,8 +117,12 @@ private:
     /**
      * The board file descriptor
      */
-    MARTe::int32 boardFileDescriptor;
+    pxi6528_device_t boardFileDescriptor;
 
+    /**
+     * The device name
+     */
+    MARTe::StreamString deviceName;
 };
 
 /*---------------------------------------------------------------------------*/

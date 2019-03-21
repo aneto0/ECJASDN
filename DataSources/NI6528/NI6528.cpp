@@ -24,11 +24,10 @@
 /*---------------------------------------------------------------------------*/
 /*                         Standard header includes                          */
 /*---------------------------------------------------------------------------*/
+#include <errno.h>
 #include <fcntl.h>
-#include <pxie6528.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <strerror.h>
 
 /*---------------------------------------------------------------------------*/
 /*                         Project header includes                           */
@@ -55,9 +54,7 @@ NI6528::NI6528() :
 
 NI6528::~NI6528() {
     using namespace MARTe;
-    if (boardFileDescriptor > -1) {
-        (void) pxi6528_close_device(boardFileDescriptor);
-    }
+    (void) pxi6528_close_device(boardFileDescriptor);
 }
 
 bool NI6528::SetConfiguredDatabase(MARTe::StructuredDataI & data) {
@@ -91,24 +88,24 @@ bool NI6528::Initialise(MARTe::StructuredDataI & data) {
             REPORT_ERROR(ErrorManagement::ParametersError, "The Port shall be specified");
         }
     }
-    StreamString deviceName;
     if (ok) {
         ok = data.Read("DeviceName", deviceName);
         if (!ok) {
             REPORT_ERROR(ErrorManagement::ParametersError, "The DeviceName shall be specified");
         }
     }
-    boardFileDescriptor = open(deviceName.Buffer(), O_NONBLOCK);
-    ok = (boardFileDescriptor > -1);
+    int32 ret = pxi6528_open_device(&boardFileDescriptor, deviceName.Buffer(), O_NONBLOCK);
+    ok = (ret == 0);
     if (!ok) {
-        REPORT_ERROR(ErrorManagement::ParametersError, "Could not open device %s", deviceName.Buffer());
+        StreamString err = strerror(-ret);
+        REPORT_ERROR(ErrorManagement::FatalError, "Could not open device (%s) : %s", deviceName.Buffer(), err.Buffer());
     }
     return ok;
 }
 
 bool NI6528::Synchronise() {
     using namespace MARTe;
-    int32 ret = (pxi6528_write_port(boardFileDescriptor, port, value) > 0));
+    int32 ret = (pxi6528_write_port(boardFileDescriptor, port, value) > 0);
     bool ok = (ret > -1);
     if (!ok) {
         StreamString err = strerror(-ret);

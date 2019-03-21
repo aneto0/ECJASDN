@@ -115,7 +115,7 @@ bool JAPulseDriverDemoGAM::Setup() {
         currentTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(0));
         pulseLengthTime = reinterpret_cast<uint32 *>(GetInputSignalMemory(1));
         pulseTrigger = reinterpret_cast<uint32 *>(GetInputSignalMemory(2));
-        output = reinterpret_cast<uint32 *>(GetOutputSignalMemory(0));
+        output = reinterpret_cast<uint8 *>(GetOutputSignalMemory(0));
     }
     return ok;
 }
@@ -124,7 +124,7 @@ bool JAPulseDriverDemoGAM::Execute() {
     using namespace MARTe;
     if ((*pulseTrigger == 1) && (lastPulseTrigger == 0)) {
         //TODO possible overflow of time ignored
-        triggerUntilTime = (*currentTime + pulseLengthTime);
+        triggerUntilTime = (*currentTime + *pulseLengthTime);
     }
     bool trigger = (*pulseTrigger != 0);
     if (trigger) {
