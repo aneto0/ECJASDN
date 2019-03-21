@@ -23,20 +23,34 @@
 # $Id: Makefile.inc 3 2012-01-15 16:26:07Z aneto $
 #
 #############################################################
-SPB = JACountdownGAM.x JAMessageGAM.x JAPreProgrammedGAM.x JAPulseDriverDemoGAM.x ESDNValidationGAM.x
+OBJSX=JAPulseDriverDemoGAM.x
 
+PACKAGE=GAMs
+
+ROOT_DIR=../../
 MAKEDEFAULTDIR=$(MARTe2_DIR)/MakeDefaults
-
-ROOT_DIR=..
 include $(MAKEDEFAULTDIR)/MakeStdLibDefs.$(TARGET)
 
-all: $(OBJS) $(SUBPROJ) check-env
-	echo  $(OBJS)
+INCLUDES += -I.
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L0Types
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L1Portability
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L2Objects
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L3Streams
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L4Messages
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L4Configuration
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/BareMetal/L5GAMs
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/Scheduler/L1Portability
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/Scheduler/L3Services
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/Scheduler/L4Messages
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/FileSystem/L1Portability
+INCLUDES += -I$(MARTe2_DIR)/Source/Core/FileSystem/L3Streams
+
+
+
+all: $(OBJS) $(SUBPROJ) \
+	$(BUILD_DIR)/JAPulseDriverDemoGAM$(LIBEXT) \
+	$(BUILD_DIR)/JAPulseDriverDemoGAM$(DLLEXT)
+	    echo  $(OBJS)
 
 include $(MAKEDEFAULTDIR)/MakeStdLibRules.$(TARGET)
-
-check-env:
-ifndef MARTe2_DIR
-    $(error MARTe2_DIR is undefined)
-endif
 
