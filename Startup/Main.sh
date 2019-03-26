@@ -122,6 +122,7 @@ if [ ! -z "$DAN_CONFIG_LOCATION" ]; then
     /opt/codac/bin/danApiTool api init $DAN_CONFIG_LOCATION
 fi
 
+NR_CPUS=4
 #Setup performance
 #Disable CPU speed changing
 service cpuspeed stop
@@ -151,14 +152,14 @@ swapoff -a
 
 # Migrate nocb tasks to CPU 0
 # Beware, this assume that there is no online CPU > NR_CPUS
-for CPU in $(seq $(($NR_CPUS-1)))
-do
-    PIDS=$(ps -o pid= -C rcuob/$CPU,rcuos/$CPU,rcuop/$CPU)
-for PID in $PIDS
-do
-    taskset -cp 0 $PID
-done
-done
+#for CPU in $(seq $(($NR_CPUS-1)))
+#do
+#    PIDS=$(ps -o pid= -C rcuob/$CPU,rcuos/$CPU,rcuop/$CPU)
+#for PID in $PIDS
+#do
+#    taskset -cp 0 $PID
+#done
+#done
 
 # Migrate irq to CPU0 
 for D in $(ls /proc/irq)
@@ -170,14 +171,14 @@ then
 fi
 done
 
-for D in $(ls /proc)
-do
-CMDL=$(cat /proc/$D/cmdline)
-if [ -x "/proc/$D" ] && [ $D != $$ ]
-then
-    taskset -cp 0 $D
-fi
-done
+#for D in $(ls /proc)
+#do
+#CMDL=$(cat /proc/$D/cmdline)
+#if [ -x "/proc/$D" ] && [ $D != $$ ]
+#then
+#    taskset -cp 0 $D
+#fi
+#done
 
 #Location of the MARTe2 application loader
 MARTe2APP=$MARTe2_DIR/Build/x86-linux/App/MARTeApp.ex
