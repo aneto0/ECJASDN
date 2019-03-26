@@ -122,6 +122,63 @@ if [ ! -z "$DAN_CONFIG_LOCATION" ]; then
     /opt/codac/bin/danApiTool api init $DAN_CONFIG_LOCATION
 fi
 
+#Setup performance
+#Disable CPU speed changing
+service cpuspeed stop
+
+#Allocate dynamic ticks to CPU #0
+for i in `pgrep rcu[^c]` ; do taskset -pc 0 $i ; done
+
+#disable watchdog
+sudo sysctl kernel.nmi_watchdog=0
+sudo sysctl kernel.watchdog=0
+
+#Isolate cpus 1-3 (tasks and interrupts)
+tuna -c 1-$(($NR_CPUS-1)) --isolate
+
+#delay vm statistic
+echo 1000 > /proc/sys/vm/stat_interval
+
+#disable cpu usage control
+echo -1 > /proc/sys/kernel/sched_rt_runtime_us
+
+echo 0 > /proc/sys/vm/dirty_writeback_centisecs
+echo 5 > /proc/sys/vm/dirty_background_ratio
+echo 10 >/proc/sys/vm/dirty_ratio
+
+#disable swap memory
+swapoff -a
+
+# Migrate nocb tasks to CPU 0
+# Beware, this assume that there is no online CPU > NR_CPUS
+for CPU in $(seq $(($NR_CPUS-1)))
+do
+    PIDS=$(ps -o pid= -C rcuob/$CPU,rcuos/$CPU,rcuop/$CPU)
+for PID in $PIDS
+do
+    taskset -cp 0 $PID
+done
+done
+
+# Migrate irq to CPU0 
+for D in $(ls /proc/irq)
+do
+if [ -x "/proc/irq/$D" ] && [ $D != "0" ]
+then
+    echo $D
+    echo 1 > /proc/irq/$D/smp_affinity
+fi
+done
+
+for D in $(ls /proc)
+do
+CMDL=$(cat /proc/$D/cmdline)
+if [ -x "/proc/$D" ] && [ $D != $$ ]
+then
+    taskset -cp 0 $D
+fi
+done
+
 #Location of the MARTe2 application loader
 MARTe2APP=$MARTe2_DIR/Build/x86-linux/App/MARTeApp.ex
 
